@@ -31,27 +31,6 @@
           "properties": {
             "warningLevel": 1
           }
-        },
-        {
-          "ruleId": "CA1822",
-          "level": "note",
-          "message": "Member 'RestartGame' does not access instance data and can be marked as static",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///home/juliana/Projects/c-sharp/csharp-001-exercicio-adivinhe-o-numero/src/guessing-number/GuessingGame.cs",
-                "region": {
-                  "startLine": 85,
-                  "startColumn": 17,
-                  "endLine": 85,
-                  "endColumn": 28
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
         }
       ],
       "rules": {

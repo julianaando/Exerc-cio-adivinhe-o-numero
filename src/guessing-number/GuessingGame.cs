@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace guessing_number;
 
@@ -22,8 +23,7 @@ public class GuessNumber
     public int maxAttempts = 5;
     public int currentAttempts = 0;
 
-    public int difficultyLevel;
-
+    public int difficultyLevel = 1;
     public bool gameOver;
 
     //1 - Imprima uma mensagem de saudação
@@ -64,7 +64,18 @@ public class GuessNumber
     //6 - Adicione níveis de dificuldade
     public string RandomNumberWithDifficult()
     {
-        throw new NotImplementedException();
+        int maxNumber = 100;
+        if (difficultyLevel == 2)
+        {
+            maxNumber = 500;
+        }
+        else if (difficultyLevel == 3)
+        {
+            maxNumber = 1000;
+        }
+        randomValue = random.GetInt(-maxNumber, maxNumber);
+
+        return $"A máquina escolheu um número de -{maxNumber} à {maxNumber}!";
     }
 
     //4 - Verifique a resposta da jogada
@@ -76,6 +87,7 @@ public class GuessNumber
             if(userValue > randomValue) {
                 return "Tente um número MENOR";
             } else {
+                gameOver = true;
                 return "ACERTOU!";
             }
        }
@@ -84,6 +96,11 @@ public class GuessNumber
     //7 - Adicione uma opção para reiniciar o jogo
     public void RestartGame()
     {
-        
+        userValue = 0;
+        currentAttempts = 0;
+        maxAttempts = 5;
+        randomValue = 0;
+        difficultyLevel = 1;
+        gameOver = false;
     }
 }
