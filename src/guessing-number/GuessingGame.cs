@@ -1,42 +1,44 @@
-using System;
-using System.Runtime.CompilerServices;
-
 namespace guessing_number;
 
 public class GuessNumber
 {
-    //In this way we are passing the random number generator by dependency injection
-    private IRandomGenerator random;
+    private readonly IRandomGenerator random;
     public GuessNumber() : this(new DefaultRandom()){}
     public GuessNumber(IRandomGenerator obj)
     {
-        this.random = obj;
-
-        userValue = 0;
-        randomValue = 0;
+        random = obj;
+        RestartGame();
     }
 
-    //user variables
     public int userValue;
     public int randomValue;
-
-    public int maxAttempts = 5;
+    public readonly int maxAttempts = 5;
     public int currentAttempts = 0;
 
     public int difficultyLevel = 1;
     public bool gameOver;
+    private static int playAgain;
 
-    //1 - Imprima uma mensagem de saudação
-    public string Greet()
+    public static string Greet()
     {
-        return "---Bem-vindo ao Guessing Game--- /n Para começar, tente adivinhar o número que eu pensei, entre -100 e 100!";
+        return "---Bem-vindo ao Guessing Game---";
     }
 
-    //2 - Receba a entrada da pessoa usuária e converta para Int
-
-    //5 - Adicione um limite de tentativas
-    public string ChooseNumber(string userEntry)
+    public string ChooseNumber()
     {
+        if (currentAttempts == maxAttempts) {
+            gameOver = true;
+            return "Você excedeu o número máximo de tentativas! Tente novamente.";
+        }
+
+        Console.Write("Digite um número: ");
+
+        string? userEntry = Console.ReadLine();
+        if (string.IsNullOrEmpty(userEntry)) {
+            Console.WriteLine("Entrada inválida! Reinicie o jogo.");
+            Environment.Exit(0);
+        }
+
         bool canConvert = int.TryParse(userEntry, out userValue);
         if(!canConvert) {
             return "Entrada inválida! Não é um número.";
@@ -46,61 +48,76 @@ public class GuessNumber
             return "Entrada inválida! Valor não está no range.";
         }
         currentAttempts++;
-
-        if (currentAttempts > maxAttempts) {
-            gameOver = true;
-            return "Você excedeu o número máximo de tentativas! Tente novamente.";
-        }
+        Console.WriteLine("currentAttempts " + currentAttempts);
         return "Número escolhido!";
     }
 
-    //3 - Gere um número aleatório
     public string RandomNumber()
     {
-        randomValue = random.GetInt(-100, 100);
-        return "A máquina escolheu um número de -100 à 100!";
+        int MIN_VALUE = -100;
+        int MAX_VALUE = 100;
+
+        randomValue = random.GetInt(MIN_VALUE, MAX_VALUE);
+        return $"A máquina escolheu um número de {MIN_VALUE} a {MAX_VALUE}!";
     }
 
-    //6 - Adicione níveis de dificuldade
-    public string RandomNumberWithDifficult()
-    {
-        int maxNumber = 100;
-        if (difficultyLevel == 2)
-        {
-            maxNumber = 500;
-        }
-        else if (difficultyLevel == 3)
-        {
-            maxNumber = 1000;
-        }
-        randomValue = random.GetInt(-maxNumber, maxNumber);
-
-        return $"A máquina escolheu um número de -{maxNumber} à {maxNumber}!";
-    }
-
-    //4 - Verifique a resposta da jogada
     public string AnalyzePlay()
     {
-       if(userValue < randomValue) {
-        return "Tente um número MAIOR";
-       } else {
-            if(userValue > randomValue) {
-                return "Tente um número MENOR";
-            } else {
-                gameOver = true;
-                return "ACERTOU!";
-            }
-       }
+        if(userValue > randomValue)
+        {
+            return "Tente um número MENOR";
+        }
+        else if(userValue < randomValue)
+        {
+            return "Tente um número MAIOR";
+        }
+        else if(userValue == randomValue)
+        {
+            gameOver = true;
+            return "ACERTOU!";
+        }
+        else {
+            return "Suas chances acabaram!";
+        }
     }
 
-    //7 - Adicione uma opção para reiniciar o jogo
     public void RestartGame()
     {
         userValue = 0;
-        currentAttempts = 0;
-        maxAttempts = 5;
         randomValue = 0;
+        currentAttempts = 0;
         difficultyLevel = 1;
         gameOver = false;
+    }
+
+    public static void StartGame() 
+    {
+        GuessNumber game = new();
+        Console.WriteLine(Greet());
+        Console.WriteLine(game.RandomNumber());
+
+        while (!game.gameOver)
+        {
+            Console.WriteLine(game.ChooseNumber());
+
+            if (game.gameOver)
+            {
+                break;
+            }
+
+            Console.WriteLine(game.AnalyzePlay());
+        }
+    }
+
+    public static void Main(string[] args)
+    {
+        do
+        {
+            StartGame();
+            Console.WriteLine("Jogo encerrado. Deseja recomeçar?");
+            Console.WriteLine("1. Sim - 2. Não");
+        } while (int.TryParse(Console.ReadLine(), out playAgain) && playAgain == 1);
+
+        Console.WriteLine("Até a próxima!!");
     }
 }
