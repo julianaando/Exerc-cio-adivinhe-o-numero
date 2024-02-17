@@ -4,40 +4,39 @@
 
 ## Objetivos do Exercício 🎯
 
-- Compreender a estrutura de um projeto C#.
+- Praticar conceitos básicos de C#.
+- Desenvolver um projeto de console.
 - Utilizar estruturas condicionais para tomada de decisões.
-- Implementar mensagens de retorno em diversas funções.
 - Realizar conversão de variáveis.
 
-## Descrição do Jogo 🕹️
+## Regras do Jogo 🕹️
 
-Este exercício consiste na implementação de um jogo de adivinhação de números por uma empresa que desenvolve aplicações de console   
-Ao enfrentar um problema de filas longas, causando tédio nos clientes enquanto esperam, a solução proposta foi implementar um jogo para divertir os clientes durante a espera.
-
-As regras do jogo são simples:
-
-1. O jogador 1 escolhe um número aleatório.
-2. O jogador 2 tenta adivinhar esse número.
-3. O jogador 1 responde se a tentativa do jogador 2 foi correta, abaixo ou acima do número escolhido.
-4. A sequência se repete até que o jogador 2 acerte o número ou ao final de 5 chances.
+1. O sistema escolhe aleatoriamente um número entre -100 e 100.
+2. O jogador tenta adivinhar esse número, interagindo com o console
+3. A cada chance, o jogador descobre se a sua tentativa foi correta, abaixo ou acima do número escolhido.
+4. O jogo encerra caso haja uma resposta certa ou ao final de 5 rodadas.
 
 ## Como Executar o Projeto
 
-Para executar o projeto, siga os passos abaixo:
+Siga os passos abaixo para executar o projeto:
 
-1. Clone o repositório em uma pasta de sua preferência:
+### 1. Clonar o repositório
 
 ```bash
 git clone git@github.com:julianaando/Exercicio-adivinhe-o-numero.git
 ```
-Entre na pasta do repositório que você acabou de clonar
+### 2. Entrar na pasta do projeto, seguindo o caminho descrito
 ```
-cd Exercicio-adivinhe-o-numero
+cd Exercicio-adivinhe-o-numero/src/guessing-number
 ```
-Instale as dependências
+### 3. Instalar as dependências
 ```
 dotnet restore
 ```
+### 4. Compilar e executar o projeto
+```
+dotnet build && dotnet run
+```
 #### 🔗 LinkedIn [@julianaandodecezare](https://www.linkedin.com/in/julianaandodecezare/)
 
-Avaliação Automática realizada pela [Trybe](https://www.betrybe.com/)
+*Exercício realizado como prática da Aceleração em C# da Trybe.*
